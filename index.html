@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Slider</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hero-content {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .gallery-section {
+      padding: 100px 0;
+      background: #0f0f0f;
+      overflow: hidden;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 0 20px;
+    }
+
+    .gallery-header h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .gallery-header p {
+      font-size: 1.2rem;
+      opacity: 0.7;
+    }
+
+    .gallery-row-container {
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    .gallery-row {
+      display: flex;
+      gap: 1.5%;
+      will-change: transform;
+    }
+
+    .gallery-item {
+      width: 19%;
+      flex-shrink: 0;
+      aspect-ratio: 4/3;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-item .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .footer {
+      padding: 60px 20px;
+      text-align: center;
+      background: #000;
+    }
+
+    .footer p {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .gallery-item {
+        width: 45%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Gallery Showcase</h1>
+      <p>Scroll down to see the animated gallery</p>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <h2>Dynamic Gallery</h2>
+      <p>4 rows of animated image sliders</p>
+    </div>
+
+    <!-- Row 1: Left to Right -->
+    <div class="gallery-row-container">
+      <div class="gallery-row" data-direction="ltr">
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">12</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">11</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">10</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">9</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">8</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">7</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">6</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">5</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">4</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">3</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">2</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">1</div></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Right to Left -->
+    <div class="gallery-row-container">
+      <div class="gallery-row" data-direction="rtl">
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">1</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">2</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">3</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">4</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">5</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">6</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">7</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">8</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">9</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">10</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">11</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">12</div></div>
+      </div>
+    </div>
+
+    <!-- Row 3: Left to Right -->
+    <div class="gallery-row-container">
+      <div class="gallery-row" data-direction="ltr">
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">12</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">11</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">10</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">9</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">8</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">7</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">6</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">5</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">4</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">3</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">2</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">1</div></div>
+      </div>
+    </div>
+
+    <!-- Row 4: Right to Left -->
+    <div class="gallery-row-container">
+      <div class="gallery-row" data-direction="rtl">
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">1</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">2</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">3</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">4</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">5</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">6</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">7</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">8</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">9</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">10</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">11</div></div>
+        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">12</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer">
+    <p>Animated Gallery Showcase © 2024</p>
+  </section>
+
+  <script>
+    // Animate gallery rows on scroll
+    const galleryRows = document.querySelectorAll('.gallery-row');
+
+    function animateRows() {
+      galleryRows.forEach((row, index) => {
+        const rect = row.getBoundingClientRect();
+        const direction = row.getAttribute('data-direction');
+        const windowHeight = window.innerHeight;
+        
+        // Check if row is in viewport
+        if (rect.top < windowHeight && rect.bottom > 0) {
+          // Calculate how much of the row is visible (0 to 1)
+          const scrollProgress = Math.min((windowHeight - rect.top) / (windowHeight + rect.height), 1);
+          
+          // Get actual measurements
+          const rowWidth = row.scrollWidth;
+          const viewportWidth = window.innerWidth;
+          
+          // Calculate how much we can move (difference between row width and viewport)
+          const maxMove = rowWidth - viewportWidth;
+          
+          if (direction === 'ltr') {
+            // Rows 1 & 3: Move LEFT to show boxes on the right side
+            const translateX = scrollProgress * maxMove;
+            row.style.transform = `translateX(-${translateX}px)`;
+          } else {
+            // Rows 2 & 4: Move RIGHT - start from negative, move to 0
+            const translateX = maxMove - (scrollProgress * maxMove);
+            row.style.transform = `translateX(-${translateX}px)`;
+          }
+        }
+      });
+    }
+
+    // Set initial positions
+    galleryRows.forEach(row => {
+      const direction = row.getAttribute('data-direction');
+      if (direction === 'ltr') {
+        // Start showing leftmost boxes
+        row.style.transform = 'translateX(0)';
+      } else {
+        // Start showing rightmost boxes (offset to the left)
+        const rowWidth = row.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const maxMove = rowWidth - viewportWidth;
+        row.style.transform = `translateX(-${maxMove}px)`;
+      }
+    });
+
+    // Animate on scroll
+    window.addEventListener('scroll', animateRows);
+    
+    // Initial check
+    animateRows();
+  </script>
+
+</body>
+</html>
