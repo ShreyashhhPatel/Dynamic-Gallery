@@ -16,6 +16,83 @@
       background: #0a0a0a;
       color: #fff;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    #box6-overlay {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      transform-origin: center center;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #box6-overlay.locked {
+      position: absolute;
+      pointer-events: auto;
+    }
+
+    #box6-overlay .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: border-radius 0.6s ease;
+    }
+
+    .box6-section {
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 60px 20px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .box6-section.visible {
+      opacity: 1;
+    }
+
+    .box6-section h2 {
+      font-size: 4rem;
+      margin-bottom: 30px;
+    }
+
+    .box6-section p {
+      font-size: 1.5rem;
+      max-width: 800px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .next-section {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 60px 20px;
+    }
+
+    .next-section h2 {
+      font-size: 3.5rem;
+      margin-bottom: 30px;
+    }
+
+    .next-section p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      text-align: center;
+      line-height: 1.8;
     }
 
     .hero {
@@ -90,6 +167,12 @@
       z-index: 10;
     }
 
+    .gallery-item.zooming {
+      position: fixed;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+    }
+
     .gallery-item img {
       width: 100%;
       height: 100%;
@@ -129,6 +212,11 @@
   </style>
 </head>
 <body>
+
+  <!-- Fullscreen overlay for box 6 -->
+  <div id="box6-overlay">
+    <div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">6</div>
+  </div>
 
   <section class="hero">
     <div class="hero-content">
@@ -188,7 +276,7 @@
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">9</div></div>
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">8</div></div>
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">7</div></div>
-        <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">6</div></div>
+        <div class="gallery-item" id="box-6"><div class="placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">6</div></div>
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">5</div></div>
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">4</div></div>
         <div class="gallery-item"><div class="placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">3</div></div>
@@ -216,6 +304,18 @@
     </div>
   </section>
 
+  <!-- Box 6 Full Section -->
+  <section class="box6-section" id="box6-full-section">
+    <h2>Box 6 Section</h2>
+    <p>This is the expanded section from box 6. It has become a full section of the page. Keep scrolling to see the next section continue naturally.</p>
+  </section>
+
+  <!-- Next Section -->
+  <section class="next-section">
+    <h2>Next Section</h2>
+    <p>This is the section that continues after box 6. The flow continues seamlessly from the expanded box into this new content area.</p>
+  </section>
+
   <section class="footer">
     <p>Animated Gallery Showcase © 2024</p>
   </section>
@@ -223,6 +323,11 @@
   <script>
     // Animate gallery rows on scroll
     const galleryRows = document.querySelectorAll('.gallery-row');
+    const box6 = document.getElementById('box-6');
+    const box6Overlay = document.getElementById('box6-overlay');
+    const box6FullSection = document.getElementById('box6-full-section');
+    let isZooming = false;
+    let isLocked = false;
 
     function animateRows() {
       galleryRows.forEach((row, index) => {
@@ -253,6 +358,102 @@
           }
         }
       });
+
+      // Handle box 6 zoom effect
+      handleBox6Zoom();
+    }
+
+    function handleBox6Zoom() {
+      if (!box6 || !box6Overlay || !box6FullSection) return;
+
+      const rect = box6.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
+      const centerY = windowHeight / 2;
+      const boxCenterY = rect.top + rect.height / 2;
+      const sectionRect = box6FullSection.getBoundingClientRect();
+
+      // Check if we're past the gallery and into the box6 section
+      if (sectionRect.top <= 0 && sectionRect.bottom > windowHeight * 0.5) {
+        // Box 6 section is active - show it and hide overlay
+        box6FullSection.classList.add('visible');
+        box6Overlay.style.opacity = '0';
+        box6.style.opacity = '1';
+        isLocked = true;
+        return;
+      } else if (sectionRect.top > windowHeight) {
+        // Haven't reached the section yet
+        box6FullSection.classList.remove('visible');
+        isLocked = false;
+      } else if (sectionRect.bottom <= 0) {
+        // Past the section
+        box6FullSection.classList.remove('visible');
+        box6Overlay.style.opacity = '0';
+        box6.style.opacity = '1';
+        isLocked = false;
+        return;
+      }
+
+      // Check if box is near center of screen (during gallery scroll)
+      const distanceFromCenter = Math.abs(boxCenterY - centerY);
+      const threshold = windowHeight * 0.25;
+
+      if (distanceFromCenter < threshold && rect.top < windowHeight && rect.bottom > 0 && !isLocked) {
+        // Box is near center - calculate zoom progress (0 to 1)
+        const zoomProgress = Math.min(1 - (distanceFromCenter / threshold), 1);
+        
+        if (zoomProgress > 0) {
+          // Smooth easing
+          const easedProgress = easeInOutCubic(zoomProgress);
+          
+          // Get box dimensions and position
+          const boxWidth = rect.width;
+          const boxHeight = rect.height;
+          const boxLeft = rect.left;
+          const boxTop = rect.top;
+          
+          // Calculate target (fullscreen)
+          const targetWidth = windowWidth;
+          const targetHeight = windowHeight;
+          const targetLeft = 0;
+          const targetTop = 0;
+          
+          // Interpolate position and size
+          const currentWidth = boxWidth + (targetWidth - boxWidth) * easedProgress;
+          const currentHeight = boxHeight + (targetHeight - boxHeight) * easedProgress;
+          const currentLeft = boxLeft + (targetLeft - boxLeft) * easedProgress;
+          const currentTop = boxTop + (targetTop - boxTop) * easedProgress;
+          
+          // Apply to overlay
+          box6Overlay.style.width = `${currentWidth}px`;
+          box6Overlay.style.height = `${currentHeight}px`;
+          box6Overlay.style.left = `${currentLeft}px`;
+          box6Overlay.style.top = `${currentTop}px`;
+          box6Overlay.style.opacity = easedProgress;
+          
+          // Remove border radius as it expands
+          const borderRadius = 12 * (1 - easedProgress);
+          box6Overlay.querySelector('.placeholder').style.borderRadius = `${borderRadius}px`;
+          box6Overlay.querySelector('.placeholder').style.fontSize = `${5 + (easedProgress * 10)}rem`;
+          
+          // Fade out original box
+          box6.style.opacity = 1 - (easedProgress * 0.5);
+
+          // If fully expanded, transition to section
+          if (easedProgress >= 0.99 && sectionRect.top < windowHeight) {
+            box6FullSection.classList.add('visible');
+            box6Overlay.style.opacity = '0';
+          }
+        }
+      } else if (!isLocked) {
+        // Reset overlay
+        box6Overlay.style.opacity = '0';
+        box6.style.opacity = '1';
+      }
+    }
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
     // Set initial positions
